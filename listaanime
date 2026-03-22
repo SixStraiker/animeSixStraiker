@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestor de Anime</title>
+<style>
+body { font-family: Arial; margin: 0; background: #0f172a; color: white; }
+header { padding: 15px; background: #1e293b; text-align: center; font-size: 24px; }
+.container { padding: 20px; }
+input, select, button { padding: 8px; margin: 5px; border-radius: 8px; border: none; }
+button { background: #3b82f6; color: white; cursor: pointer; }
+.card { background: #1e293b; padding: 15px; border-radius: 12px; margin-bottom: 10px; }
+.hidden { display: none; }
+</style>
+</head>
+<body>
+<header>🎬 Mi Gestor de Anime</header>
+
+<div class="container">
+
+<h2>Agregar Anime</h2>
+<input id="nombre" placeholder="Nombre del anime">
+<input id="genero" placeholder="Género">
+<select id="estado">
+<option value="Viendo">Viendo</option>
+<option value="Terminado">Terminado</option>
+<option value="Pendiente">Pendiente</option>
+</select>
+<input id="calificacion" placeholder="Calificación">
+<button onclick="agregarAnime()">Agregar</button>
+
+<h2>Buscar</h2>
+<input id="busqueda" placeholder="Buscar por nombre" oninput="mostrarAnimes()">
+
+<h2>Lista de Animes</h2>
+<div id="lista"></div>
+
+</div>
+
+<script>
+let animes = [
+    { nombre: "Toradora", genero: "Romance", estado: "Terminado", calificacion: "Excelente" },
+    { nombre: "Re:Zero", genero: "Isekai", estado: "Viendo", calificacion: "Muy bueno" }
+];
+
+function agregarAnime() {
+    const nombre = document.getElementById("nombre").value;
+    const genero = document.getElementById("genero").value;
+    const estado = document.getElementById("estado").value;
+    const calificacion = document.getElementById("calificacion").value;
+
+    if(nombre === "") return alert("Pon un nombre");
+
+    animes.push({ nombre, genero, estado, calificacion });
+    mostrarAnimes();
+}
+
+function mostrarAnimes() {
+    const lista = document.getElementById("lista");
+    const filtro = document.getElementById("busqueda").value.toLowerCase();
+
+    lista.innerHTML = "";
+
+    animes.filter(a => a.nombre.toLowerCase().includes(filtro))
+    .forEach(anime => {
+        lista.innerHTML += `
+        <div class="card">
+            <h3>${anime.nombre}</h3>
+            <p>Género: ${anime.genero}</p>
+            <p>Estado: ${anime.estado}</p>
+            <p>Calificación: ${anime.calificacion}</p>
+        </div>`;
+    });
+}
+
+mostrarAnimes();
+</script>
+
+</body>
+</html>
